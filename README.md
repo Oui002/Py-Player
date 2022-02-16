@@ -1,2 +1,2 @@
 # Py-Player
-Music player using only the Python library Pygame both for playing the music and the GUI.
+Music player using only the Python library Pygame for both playing the music and the displaying the GUI.
