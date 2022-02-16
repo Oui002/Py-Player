@@ -1,4 +1,4 @@
-# Py-Player
+# Py-Player [WIP]
 Music player using only the Python library Pygame for both playing the music and the displaying the GUI.
 
 # I want to run this piece of junk, but how??
