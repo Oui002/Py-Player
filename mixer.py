@@ -21,13 +21,13 @@ class Mixer():
     def play_sound(self,) -> None:
         self.mixer.music.play()
 
-        playing=True
-        while playing:
-            if self.mixer.music.get_busy():
-                pass
-            else:
-                playing=False
-                self.thread = None
+        # playing=True
+        # while playing:
+        #     if self.mixer.music.get_busy():
+        #         pass
+        #     else:
+        #         playing=False
+        #         self.thread = None
 
         return
 
@@ -37,6 +37,10 @@ class Mixer():
         play_thread.start()
 
         self.thread = play_thread
+
+        return
     
     def stop(self,) -> None:
         self.mixer.music.stop()
+
+        return
