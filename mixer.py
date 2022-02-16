@@ -7,7 +7,7 @@ class Mixer():
 
     def __init__(self,) -> None:
         self.loaded = list()
-        self.currently_playing = None
+        self.currently_loaded = None
         self.volume = float()
         self.thread = None
         
@@ -16,7 +16,12 @@ class Mixer():
     
     def load(self, path: str,) -> None:
         loaded_song = self.pmixer.music.load(f"./{path}.mp3")
-        self.currently_playing = loaded_song
+        self.currently_loaded = loaded_song
+
+        return
+
+    def play(self,) -> None:
+        self.pmixer.music.play()
 
         return
 
@@ -25,20 +30,6 @@ class Mixer():
         self.pmixer.music.set_volume(vol)
 
         return
-
-    # def playsound_target(self,) -> None:
-    #     self.pmixer.music.play()
-
-    #     return
-
-    # def play(self,) -> None:
-    #     play_thread = threading.Thread(name="mixer-music-thread", target=self.playsound_target)
-    #     play_thread.daemon=True
-    #     play_thread.start()
-
-    #     self.thread = play_thread
-
-    #     return
     
     def stop(self,) -> None:
         self.pmixer.music.stop()
