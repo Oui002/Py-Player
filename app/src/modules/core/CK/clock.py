@@ -1,6 +1,5 @@
 from pygame import time
 from json import load, dumps
-from os import listdir
 
 class Clock():
 
