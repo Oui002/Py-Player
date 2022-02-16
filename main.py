@@ -9,4 +9,5 @@ if __name__ == "__main__":
     mixer.load('MEGALOVANIA')
     mixer.play()
 
-    sleep(100)
+    while True:
+        pass
