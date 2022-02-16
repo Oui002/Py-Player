@@ -1,6 +1,6 @@
 from pygame import mixer
 from json import load, dumps
-from ..logging.Exceptions import EmptyPathError
+from ..logging.Exceptions import EmptyPathError, SongNotFoundError
 
 class Mixer():
 
@@ -24,12 +24,15 @@ class Mixer():
     
     def load(self, path: str,) -> None:
         if path != ".mp3":
-            self.pmixer.music.load(f"../music/{path}")
+            try:
+                self.pmixer.music.load(f"../music/{path}")
+            except FileNotFoundError:
+                raise SongNotFoundError(path=path, prefix="MIXER")
             
             self.config["current_song"]["path"] = path
             self.config["current_song"]["timestamp"] = "0"
         else:
-            raise EmptyPathError("MIXER")
+            raise EmptyPathError(path=path, prefix="MIXER")
         
         self.save_config()
 

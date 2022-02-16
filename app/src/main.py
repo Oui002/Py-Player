@@ -6,11 +6,8 @@ import pygame; pygame.init()
 def test1():
     _mixer = Mixer()
 
-    _mixer.load('.mp3')
+    _mixer.load('MEGALOVANIA.mp3')
     _mixer.play()
-    _mixer.set_volume(0.45)
-
-    print(round(_mixer.pmixer.music.get_volume() * 100))
 
     sleep(1000)
 
