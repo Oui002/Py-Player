@@ -1,6 +1,5 @@
 from mixer import Mixer
 from time import sleep
-from sys import exit
 
 import pygame; pygame.init()
 
@@ -8,13 +7,14 @@ if __name__ == "__main__":
     mixer = Mixer()
 
     mixer.load('MEGALOVANIA')
-    mixer.play()
+    mixer.pmixer.music.play()
+    mixer.set_volume(0.35)
 
-    sleep(1000)
+    print(round(mixer.pmixer.music.get_volume() * 100))
+
+    sleep(100)
 
     # while True:
-    #     if mixer.mixer.music.get_busy():
-    #         pass
-    #     else:
-    #         print("exiting")
-    #         exit(0)
+    #     song_time = mixer.pmixer.music.get_pos() / 1000
+    #     print(song_time)
+    #     sleep(0.1)

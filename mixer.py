@@ -1,3 +1,4 @@
+from time import sleep
 from pygame import mixer
 
 import threading
@@ -7,40 +8,39 @@ class Mixer():
     def __init__(self,) -> None:
         self.loaded = list()
         self.currently_playing = None
+        self.volume = float()
         self.thread = None
         
-        self.mixer = mixer
-        self.mixer.init()
+        self.pmixer = mixer
+        self.pmixer.init()
     
-    def load(self, path) -> None:
-        loaded_song = self.mixer.music.load("./" + path + ".mp3")
+    def load(self, path: str) -> None:
+        loaded_song = self.pmixer.music.load(f"./{path}.mp3")
         self.currently_playing = loaded_song
 
         return
 
-    def play_sound(self,) -> None:
-        self.mixer.music.play()
-
-        # playing=True
-        # while playing:
-        #     if self.mixer.music.get_busy():
-        #         pass
-        #     else:
-        #         playing=False
-        #         self.thread = None
+    def set_volume(self, vol: float) -> None:
+        self.volume = round(vol * 100)
+        self.pmixer.music.set_volume(vol)
 
         return
 
-    def play(self,) -> None:
-        play_thread = threading.Thread(target=self.play_sound)
-        play_thread.daemon=True
-        play_thread.start()
+    # def playsound_target(self,) -> None:
+    #     self.pmixer.music.play()
 
-        self.thread = play_thread
+    #     return
 
-        return
+    # def play(self,) -> None:
+    #     play_thread = threading.Thread(name="mixer-music-thread", target=self.playsound_target)
+    #     play_thread.daemon=True
+    #     play_thread.start()
+
+    #     self.thread = play_thread
+
+    #     return
     
     def stop(self,) -> None:
-        self.mixer.music.stop()
+        self.pmixer.music.stop()
 
         return
