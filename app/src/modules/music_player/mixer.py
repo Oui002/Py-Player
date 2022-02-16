@@ -1,6 +1,6 @@
 from pygame import mixer
 from json import load, dumps
-from ..logging.Exceptions.EmptyPathError import EmptyPathError
+from ..logging.Exceptions import EmptyPathError
 
 class Mixer():
 
