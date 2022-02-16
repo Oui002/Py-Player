@@ -39,6 +39,6 @@ class Input():
                 
                 if event.key == K_F11:
                     if self.display.display.get_window_size()[0] == 1920 and self.display.display.get_window_size()[1] == 1080:
-                        self.display.display.set_mode((960, 540), RESIZABLE)
+                        self.display.display.set_mode((self.display.screen.get_width() / 2, self.display.screen.get_height() / 2), RESIZABLE)
                     else:
-                        self.display.display.set_mode((1920, 1080), FULLSCREEN)
+                        self.display.display.set_mode((self.display.screen.get_width(), self.display.screen.get_height()), FULLSCREEN)
