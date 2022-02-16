@@ -1,5 +1,5 @@
 # Py-Player [WIP]
-Music player using only the Python library Pygame for both playing the music and the displaying the GUI.
+Music player using only the Python library Pygame for both playing the music and the displaying the GUI. Yeah.. Wish me luck!
 
 # I want to run this piece of junk, but how??
 #### Well basically you just do
