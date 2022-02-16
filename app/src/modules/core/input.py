@@ -32,7 +32,6 @@ class Input():
                         self.mixer.resume()
                     else:
                         self.mixer.play()
-                    
                 
                 if event.key == K_F11:
                     if self.display.display.get_window_size()[0] == 1920 and self.display.display.get_window_size()[1] == 1080:
