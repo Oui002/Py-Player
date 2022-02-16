@@ -1,7 +1,4 @@
-from time import sleep
 from pygame import mixer
-
-import threading
 
 class Mixer():
 
@@ -15,7 +12,7 @@ class Mixer():
         self.pmixer.init()
     
     def load(self, path: str,) -> None:
-        loaded_song = self.pmixer.music.load(f"./{path}.mp3")
+        loaded_song = self.pmixer.music.load(f"../music/{path}.mp3")
         self.currently_loaded = loaded_song
 
         return
