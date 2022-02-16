@@ -1,3 +1,5 @@
+from modules.app import Main
+
 from modules.music_player.mixer import Mixer
 from time import sleep
 
@@ -11,5 +13,13 @@ def test1():
 
     sleep(1000)
 
+def main():
+    _mixer = Mixer()
+
+    app = Main()
+    
+    while True:
+        app.run()
+
 if __name__ == "__main__":
-    test1()
+    main()
