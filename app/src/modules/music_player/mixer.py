@@ -5,7 +5,6 @@ from ..logging.Exceptions import EmptyPathError, SongNotFoundError
 class Mixer():
 
     def __init__(self,) -> None:
-        self.volume = int()
         with open('./modules/music_player/config.json', 'r+') as config:
             self.config = load(config)
 
@@ -15,6 +14,9 @@ class Mixer():
         self.pmixer.init()
         self.set_volume(float(self.config["volume"]))
         self.load(self.config["current_song"]["path"])
+
+        self.volume = int()
+        self.paused = False
 
     def save_config(self,) -> None:
         with open('./modules/music_player/config.json', 'w') as config:
@@ -58,11 +60,13 @@ class Mixer():
     
     def resume(self,) -> None:
         self.pmixer.music.unpause()
+        self.paused = False
         
         return
     
     def pause(self,) -> None:
         self.pmixer.music.pause()
+        self.paused = True
         
         self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos())
         self.save_config()

@@ -1,6 +1,8 @@
 from pygame.locals import *
 from pygame import event as pgevents
 from pygame import quit
+from pygame import FULLSCREEN, RESIZABLE
+
 from sys import exit
 
 from modules.core.display import Display
@@ -10,7 +12,8 @@ from ..music_player.mixer import Mixer
 class Input():
     
     def __init__(self,) -> None:
-        pass
+        self.display = Display()
+        self.mixer = Mixer()
     
     def handle_input(self,):
         for event in pgevents.get():
@@ -22,8 +25,17 @@ class Input():
                     quit()
                     exit(0)
                 
-                if event.key == K_p:
-                    Mixer().play()
+                if event.key == K_SPACE:
+                    if self.mixer.pmixer.music.get_busy():
+                        self.mixer.pause()
+                    elif self.mixer.paused:
+                        self.mixer.resume()
+                    else:
+                        self.mixer.play()
+                    
                 
                 if event.key == K_F11:
-                    Display().display.toggle_fullscreen()
+                    if self.display.display.get_window_size()[0] == 1920 and self.display.display.get_window_size()[1] == 1080:
+                        self.display.display.set_mode((960, 540), RESIZABLE)
+                    else:
+                        self.display.display.set_mode((1920, 1080), FULLSCREEN)
