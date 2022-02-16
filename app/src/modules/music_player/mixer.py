@@ -13,7 +13,7 @@ class Mixer():
         self.pmixer = mixer
         self.pmixer.init()
         self.set_volume(float(self.config["volume"]))
-        self.load(self.config["current_song"]["path"])
+        self.load(self.config["current_song"]["path"], False)
 
         self.volume = int()
         self.paused = False
@@ -24,7 +24,7 @@ class Mixer():
         
         return
     
-    def load(self, path: str,) -> None:
+    def load(self, path: str, reset_timestamp: bool) -> None:
         if path != ".mp3":
             try:
                 self.pmixer.music.load(f"../music/{path}")
@@ -32,7 +32,8 @@ class Mixer():
                 raise SongNotFoundError(path=path, prefix="MIXER")
             
             self.config["current_song"]["path"] = path
-            self.config["current_song"]["timestamp"] = "0"
+            if reset_timestamp:
+                self.config["current_song"]["timestamp"] = "0"
         else:
             raise EmptyPathError(path=path, prefix="MIXER")
         
@@ -41,7 +42,7 @@ class Mixer():
         return
 
     def play(self,) -> None:
-        self.pmixer.music.play()
+        self.pmixer.music.play(start=float(int(self.config["current_song"]["timestamp"]) / 100))
 
         return
     

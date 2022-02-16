@@ -1,6 +1,6 @@
-from modules.core.display import Display
-from modules.core.clock import Clock
-from modules.core.input import Input
+from modules.core.DP.display import Display
+from modules.core.CK.clock import Clock
+from modules.core.IP.input import Input
 
 class Main():
 
