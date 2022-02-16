@@ -14,13 +14,13 @@ class Mixer():
         self.pmixer = mixer
         self.pmixer.init()
     
-    def load(self, path: str) -> None:
+    def load(self, path: str,) -> None:
         loaded_song = self.pmixer.music.load(f"./{path}.mp3")
         self.currently_playing = loaded_song
 
         return
 
-    def set_volume(self, vol: float) -> None:
+    def set_volume(self, vol: float,) -> None:
         self.volume = round(vol * 100)
         self.pmixer.music.set_volume(vol)
 
