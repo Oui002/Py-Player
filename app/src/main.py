@@ -8,7 +8,6 @@ def test1():
 
     _mixer.load('MEGALOVANIA')
     _mixer.play()
-    _mixer.set_volume(0.35)
 
     print(round(_mixer.pmixer.music.get_volume() * 100))
 

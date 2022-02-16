@@ -1,15 +1,16 @@
 from pygame import mixer
+from json import load
 
 class Mixer():
 
     def __init__(self,) -> None:
-        self.loaded = list()
         self.currently_loaded = None
-        self.volume = float()
-        self.thread = None
+        with open('./modules/music_player/config.json', 'r+') as config:
+            self.config = load(config)
         
         self.pmixer = mixer
         self.pmixer.init()
+        self.set_volume(float(self.config["volume"]))
     
     def load(self, path: str,) -> None:
         loaded_song = self.pmixer.music.load(f"../music/{path}.mp3")
@@ -23,7 +24,6 @@ class Mixer():
         return
 
     def set_volume(self, vol: float,) -> None:
-        self.volume = round(vol * 100)
         self.pmixer.music.set_volume(vol)
 
         return
