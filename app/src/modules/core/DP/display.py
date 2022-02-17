@@ -13,4 +13,4 @@ class Display():
         self.screen = display.set_mode((self.display.Info().current_w, self.display.Info().current_h), FULLSCREEN)
     
     def update(self,):
-        display.update()
+        self.display.update()
