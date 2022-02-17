@@ -35,8 +35,11 @@ class Input():
                         self.mixer.pause()
                     elif self.mixer.paused:
                         self.mixer.resume()
-                    else:
-                        self.mixer.play()
+                    elif not self.mixer.pmixer.music.get_busy() and not self.mixer.paused:
+                        self.mixer.play(self.mixer.config["current_song"]["timestamp"])
+                
+                if event.key == K_r:
+                    self.mixer.restart()
                 
                 if event.key == K_F11:
                     if self.display.display.get_window_size()[0] == 1920 and self.display.display.get_window_size()[1] == 1080:

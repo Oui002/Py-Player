@@ -7,8 +7,6 @@ class Mixer():
     def __init__(self,) -> None:
         with open('./modules/music_player/config.json', 'r+') as config:
             self.config = load(config)
-
-        self.currently_loaded = self.config["current_song"]
         
         self.pmixer = mixer
         self.pmixer.init()
@@ -41,8 +39,8 @@ class Mixer():
 
         return
 
-    def play(self,) -> None:
-        self.pmixer.music.play(start=float(int(self.config["current_song"]["timestamp"]) / 100))
+    def play(self, start,) -> None:
+        self.pmixer.music.play(start=float(int(start) / 100))
 
         return
     
@@ -72,4 +70,17 @@ class Mixer():
         self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos())
         self.save_config()
 
+        return
+    
+    def restart(self,) -> None:
+        if not self.pmixer.music.get_pos() == 0:
+            if not self.paused:
+                self.pause()
+            
+            self.config["current_song"]["timestamp"] = "0"
+            self.save_config()
+    
+            self.stop()
+            self.play(self.config["current_song"]["timestamp"])
+        
         return

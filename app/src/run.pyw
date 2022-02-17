@@ -1,7 +1,6 @@
 from modules.app import Main
 
 from modules.music_player.mixer import Mixer
-from time import sleep
 
 import pygame; pygame.init()
 
@@ -14,8 +13,7 @@ import pygame; pygame.init()
 #     sleep(1000)
 
 def main():
-    _mixer = Mixer()
-
+    Mixer()
     app = Main()
     
     while True:
