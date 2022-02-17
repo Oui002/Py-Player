@@ -1,4 +1,7 @@
 from pygame import mixer
+from pygame import event as pgevents
+from pygame import USEREVENT
+
 from json import load, dumps
 from ..logging.Exceptions import EmptyPathError, SongNotFoundError
 
@@ -16,6 +19,9 @@ class Mixer():
         self.volume = int()
         self.paused = False
 
+        self.MUSIC_END = USEREVENT + 1
+        self.pmixer.music.set_endevent(self.MUSIC_END)
+
     def save_config(self,) -> None:
         with open('./modules/music_player/config.json', 'w') as config:
             config.write(dumps(self.config, indent=4))
@@ -25,7 +31,7 @@ class Mixer():
     def get_config(self,) -> object:
         return self.config
     
-    def load(self, path: str, reset_timestamp: bool) -> None:
+    def load(self, path: str, reset_start: bool = True) -> None:
         if path != ".mp3":
             try:
                 self.pmixer.music.load(f"../music/{path}")
@@ -33,8 +39,9 @@ class Mixer():
                 raise SongNotFoundError(path=path, prefix="MIXER")
             
             self.config["current_song"]["path"] = path
-            if reset_timestamp:
-                self.config["current_song"]["timestamp"] = "0"
+            self.config["current_song"]["timestamp"] = "0"
+            if reset_start:
+                self.config["current_song"]["start_pos"] = "0"
         else:
             raise EmptyPathError(path=path, prefix="MIXER")
         
@@ -42,8 +49,9 @@ class Mixer():
 
         return
 
-    def play(self, start: str,) -> None:
-        self.pmixer.music.play(start=float(int(start) / 1000))
+    def play(self,) -> None:
+        self.save_config()
+        self.pmixer.music.play(start=float((int(self.config["current_song"]["timestamp"]) + int(self.config["current_song"]["start_pos"])) / 1000))
 
         return
     
@@ -61,7 +69,14 @@ class Mixer():
         return
     
     def set_playback_timestamp(self, start: str,) -> None:
-        self.config["current_song"]["timestamp"] = int(start)
+        self.config["current_song"]["timestamp"] = start
+        self.save_config()
+
+        return
+    
+    def exit(self,) -> None:
+        self.config["current_song"]["start_pos"] = str(int(self.config["current_song"]["timestamp"]) + int(self.config["current_song"]["start_pos"]))
+        self.config["current_song"]["timestamp"] = "0"
         self.save_config()
 
         return
@@ -87,9 +102,13 @@ class Mixer():
                 self.pause()
             
             self.config["current_song"]["timestamp"] = "0"
+            self.config["current_song"]["start_pos"] = "0"
             self.save_config()
     
-            self.stop()
-            self.play(self.config["current_song"]["timestamp"])
+            self.play()
         
         return
+
+    def player_events(self,) -> None:
+        # print(pgevents.get())
+        pass

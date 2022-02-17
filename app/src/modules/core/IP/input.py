@@ -21,24 +21,26 @@ class Input():
     def handle_input(self,) -> None:
         for event in pgevents.get():
             if event.type == QUIT:
+                self.mixer.exit()
                 quit()
                 exit(0)
                 
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
+                    self.mixer.exit()
                     quit()
                     exit(0)
                 
-                if event.key == K_SPACE:
+                if event.key == K_k or event.key == K_SPACE:
                     if self.mixer.pmixer.music.get_busy():
                         self.mixer.pause()
                     elif self.mixer.paused:
                         self.mixer.resume()
                     else:
-                        self.mixer.play(self.mixer.get_config()["current_song"]["timestamp"])
-
+                        self.mixer.play()
+                       
                     
-                
+
                 if event.key == K_r:
                     self.mixer.restart()
                 

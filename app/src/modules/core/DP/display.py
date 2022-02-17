@@ -3,7 +3,7 @@ from json import load
 
 class Display():
 
-    def __init__(self, caption: str = 'Py-Player Music Player',) -> None:
+    def __init__(self, caption: str = 'Py-Player Music Player [WIP]',) -> None:
         self.display = display
 
         with open('./modules/core/CK/config.json', 'r+') as config:
