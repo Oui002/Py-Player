@@ -7,7 +7,6 @@ from sys import exit
 from json import load, dumps
 
 from modules.core.DP.display import Display
-
 from ...music_player.mixer import Mixer
 
 class Input():
@@ -19,7 +18,7 @@ class Input():
         with open('./modules/core/CK/config.json', 'r+') as config:
             self.config = load(config)
     
-    def handle_input(self,):
+    def handle_input(self,) -> None:
         for event in pgevents.get():
             if event.type == QUIT:
                 quit()
@@ -35,8 +34,10 @@ class Input():
                         self.mixer.pause()
                     elif self.mixer.paused:
                         self.mixer.resume()
-                    elif not self.mixer.pmixer.music.get_busy() and not self.mixer.paused:
-                        self.mixer.play(self.mixer.config["current_song"]["timestamp"])
+                    else:
+                        self.mixer.play(self.mixer.get_config()["current_song"]["timestamp"])
+
+                    
                 
                 if event.key == K_r:
                     self.mixer.restart()

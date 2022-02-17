@@ -22,6 +22,9 @@ class Mixer():
         
         return
     
+    def get_config(self,) -> object:
+        return self.config
+    
     def load(self, path: str, reset_timestamp: bool) -> None:
         if path != ".mp3":
             try:
@@ -39,8 +42,8 @@ class Mixer():
 
         return
 
-    def play(self, start,) -> None:
-        self.pmixer.music.play(start=float(int(start) / 100))
+    def play(self, start: str,) -> None:
+        self.pmixer.music.play(start=float(int(start) / 1000))
 
         return
     
