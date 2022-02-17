@@ -24,6 +24,7 @@ class Input():
             if event.type == QUIT:
                 quit()
                 exit(0)
+                
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     quit()
