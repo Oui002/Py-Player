@@ -51,8 +51,14 @@ class Mixer():
 
     def set_volume(self, vol: float,) -> None:
         self.pmixer.music.set_volume(vol)
-        self.config["volume"] = str(vol)
 
+        self.config["volume"] = str(vol)
+        self.save_config()
+
+        return
+    
+    def set_playback_timestamp(self, start: str,) -> None:
+        self.config["current_song"]["timestamp"] = int(start)
         self.save_config()
 
         return
