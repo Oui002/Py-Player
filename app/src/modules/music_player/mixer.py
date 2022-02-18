@@ -79,7 +79,7 @@ class Mixer():
         current_pos = int(self.config["current_song"]["timestamp"])
         new_pos = amount + current_pos
 
-        self.config["current_song"]["timestamp"] = new_pos
+        self.config["current_song"]["timestamp"] = str(new_pos)
         self.save_config()
 
         self.play()
@@ -87,7 +87,7 @@ class Mixer():
         return
     
     def exit(self,) -> None:
-        self.pause()
+        self.stop()
 
         self.config["current_song"]["start_pos"] = str(int(self.config["current_song"]["timestamp"]) + int(self.config["current_song"]["start_pos"]))
         self.config["current_song"]["timestamp"] = "0"
@@ -95,26 +95,17 @@ class Mixer():
 
         return
     
-    def resume(self,) -> None:
-        self.pmixer.music.unpause()
-        self.paused = False
-        
-        return
-    
     def pause(self,) -> None:
         self.pmixer.music.pause()
         self.paused = True
         
-        self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos())
+        self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() + int(self.config["current_song"]["timestamp"]))
         self.save_config()
 
         return
     
     def restart(self,) -> None:
         if not self.pmixer.music.get_pos() == 0:
-            if not self.paused:
-                self.pause()
-            
             self.config["current_song"]["timestamp"] = "0"
             self.config["current_song"]["start_pos"] = "0"
             self.save_config()
