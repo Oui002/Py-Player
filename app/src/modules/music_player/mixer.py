@@ -76,6 +76,8 @@ class Mixer():
         return
     
     def increment_playback_timestamp(self, amount: int,) -> None:
+        self.pause()
+
         current_pos = int(self.config["current_song"]["timestamp"])
         new_pos = amount + current_pos
 
