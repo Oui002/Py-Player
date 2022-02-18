@@ -20,6 +20,8 @@ class Events():
     
     def handle_events(self,) -> None:
         for event in pgevents.get():
+
+            # Handling input
             if event.type == QUIT:
                 self.mixer.exit()
                 quit()
@@ -48,5 +50,6 @@ class Events():
                     else:
                         self.display.display.set_mode((self.display.screen.get_width(), self.display.screen.get_height()), FULLSCREEN) 
 
+            # Mixer events
             if event.type == USEREVENT:
                 self.mixer.music_end()

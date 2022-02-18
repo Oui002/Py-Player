@@ -81,6 +81,8 @@ class Mixer():
         return
     
     def exit(self,) -> None:
+        self.pause()
+
         self.config["current_song"]["start_pos"] = str(int(self.config["current_song"]["timestamp"]) + int(self.config["current_song"]["start_pos"]))
         self.config["current_song"]["timestamp"] = "0"
         self.save_config()
