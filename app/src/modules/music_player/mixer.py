@@ -79,6 +79,9 @@ class Mixer():
         current_pos = int(self.config["current_song"]["timestamp"])
         new_pos = amount + current_pos
 
+        if new_pos < 0:
+            new_pos = 0
+
         self.config["current_song"]["timestamp"] = str(new_pos)
         self.save_config()
 

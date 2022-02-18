@@ -36,8 +36,6 @@ class Events():
                 if event.key == K_k or event.key == K_SPACE:
                     if self.mixer.pmixer.music.get_busy():
                         self.mixer.stop()
-                    elif self.mixer.paused:
-                        self.mixer.play()
                     else:
                         self.mixer.play()
 
