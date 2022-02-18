@@ -62,6 +62,7 @@ class Mixer():
         return
     
     def stop(self,) -> None:
+        self.pause()
         self.pmixer.music.stop()
 
         return
@@ -74,9 +75,14 @@ class Mixer():
 
         return
     
-    def set_playback_timestamp(self, start: str,) -> None:
-        self.config["current_song"]["timestamp"] = start
+    def increment_playback_timestamp(self, amount: int,) -> None:
+        current_pos = int(self.config["current_song"]["timestamp"])
+        new_pos = amount + current_pos
+
+        self.config["current_song"]["timestamp"] = new_pos
         self.save_config()
+
+        self.play()
 
         return
     

@@ -27,7 +27,7 @@ class Events():
                 quit()
                 exit(0)
                 
-            if event.type == KEYDOWN:
+            elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     self.mixer.exit()
                     quit()
@@ -53,3 +53,12 @@ class Events():
             # Mixer events
             if event.type == USEREVENT:
                 self.mixer.music_end()
+            
+            if event.type == KEYDOWN:
+                if event.key == K_j:
+                    self.mixer.increment_playback_timestamp(-15000)
+                    self.mixer.play()
+
+                if event.key == K_l:
+                    self.mixer.increment_playback_timestamp(+10000)
+                    self.mixer.play()
