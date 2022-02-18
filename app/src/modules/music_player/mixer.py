@@ -19,8 +19,7 @@ class Mixer():
         self.volume = int()
         self.paused = False
 
-        self.MUSIC_END = USEREVENT + 1
-        self.pmixer.music.set_endevent(self.MUSIC_END)
+        self.MUSIC_END = USEREVENT
 
     def save_config(self,) -> None:
         with open('./modules/music_player/config.json', 'w') as config:
@@ -51,7 +50,14 @@ class Mixer():
 
     def play(self,) -> None:
         self.save_config()
+
+        if self.pmixer.music.get_busy():
+            self.paused = True
+
         self.pmixer.music.play(start=float((int(self.config["current_song"]["timestamp"]) + int(self.config["current_song"]["start_pos"])) / 1000))
+        self.pmixer.music.set_endevent(self.MUSIC_END)
+
+        self.paused = False
 
         return
     
@@ -109,6 +115,10 @@ class Mixer():
         
         return
 
-    def player_events(self,) -> None:
-        # print(pgevents.get())
-        pass
+    def music_end(self,) -> None:
+        if self.paused == False:
+            self.config["current_song"]["timestamp"] = "0"
+            self.config["current_song"]["start_pos"] = "0"
+            self.save_config()
+        
+        return

@@ -1,7 +1,7 @@
 from pygame.locals import *
 from pygame import event as pgevents
 from pygame import quit
-from pygame import FULLSCREEN, RESIZABLE
+from pygame import FULLSCREEN, RESIZABLE, USEREVENT
 
 from sys import exit
 from json import load, dumps
@@ -9,7 +9,7 @@ from json import load, dumps
 from modules.core.DP.display import Display
 from ...music_player.mixer import Mixer
 
-class Input():
+class Events():
     
     def __init__(self,) -> None:
         self.display = Display()
@@ -38,8 +38,6 @@ class Input():
                         self.mixer.resume()
                     else:
                         self.mixer.play()
-                       
-                    
 
                 if event.key == K_r:
                     self.mixer.restart()
@@ -48,4 +46,7 @@ class Input():
                     if self.display.display.get_window_size()[0] == 1920 and self.display.display.get_window_size()[1] == 1080:
                         self.display.display.set_mode((self.display.screen.get_width() / 2, self.display.screen.get_height() / 2), RESIZABLE)
                     else:
-                        self.display.display.set_mode((self.display.screen.get_width(), self.display.screen.get_height()), FULLSCREEN)
+                        self.display.display.set_mode((self.display.screen.get_width(), self.display.screen.get_height()), FULLSCREEN) 
+
+            if event.type == USEREVENT:
+                self.mixer.music_end()
