@@ -84,6 +84,13 @@ class Mixer():
         if new_pos < 0:
             new_pos = 0
 
+            res = current_pos - amount
+            print(res)
+            self.config["current_song"]["start_pos"] = str(int(self.config["current_song"]["start_pos"]) - res)
+
+            if int(self.config["current_song"]["start_pos"]) < 0:
+                self.config["current_song"]["start_pos"] = "0"
+
         self.config["current_song"]["timestamp"] = str(new_pos)
         self.save_config()
 
