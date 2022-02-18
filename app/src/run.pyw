@@ -1,5 +1,4 @@
 from modules.app import Main
-
 from modules.music_player.mixer import Mixer
 
 import pygame; pygame.init()
