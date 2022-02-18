@@ -18,7 +18,7 @@ class Events():
         with open('./modules/core/CK/config.json', 'r+') as config:
             self.config = load(config)
     
-    def handle_input(self,) -> None:
+    def handle_events(self,) -> None:
         for event in pgevents.get():
             if event.type == QUIT:
                 self.mixer.exit()

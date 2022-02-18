@@ -15,7 +15,7 @@ class Main():
     def run(self,):
         self.display.screen.fill((0,0,50))
         
-        self.events.handle_input()
+        self.events.handle_events()
 
         self.display.update()
         self.clock.tick()
