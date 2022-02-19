@@ -13,4 +13,6 @@ def mp32ogg(path: str = "../music"):
                 except:
                     remove(f"{path}/{file}")
                     remove(f"{path}/{file[:-4]}.ogg")
+
+                    pass
                 
