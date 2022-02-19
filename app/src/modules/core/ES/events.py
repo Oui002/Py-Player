@@ -33,15 +33,6 @@ class Events():
                     quit()
                     exit(0)
                 
-                if event.key == K_k or event.key == K_SPACE:
-                    if self.mixer.pmixer.music.get_busy():
-                        self.mixer.stop()
-                    else:
-                        self.mixer.play()
-
-                if event.key == K_r:
-                    self.mixer.restart()
-                
                 if event.key == K_F11:
                     if self.display.display.get_window_size()[0] == 1920 and self.display.display.get_window_size()[1] == 1080:
                         self.display.display.set_mode((self.display.screen.get_width() / 2, self.display.screen.get_height() / 2), RESIZABLE)
@@ -60,3 +51,12 @@ class Events():
                 if event.key == K_l:
                     self.mixer.increment_playback_timestamp(+10000)
                     self.mixer.play()
+
+                if event.key == K_r:
+                    self.mixer.restart()
+                
+                if event.key == K_k or event.key == K_SPACE:
+                    if self.mixer.pmixer.music.get_busy():
+                        self.mixer.stop()
+                    else:
+                        self.mixer.play()

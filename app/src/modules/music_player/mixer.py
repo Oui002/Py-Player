@@ -2,6 +2,10 @@ from pygame import mixer
 from pygame import USEREVENT
 
 from json import load, dumps
+from ffmpeg import probe
+
+import asyncio
+import threading
 
 from ..logging.Exceptions import EmptyPathError
 from ..converters.mp32ogg import mp32ogg
@@ -19,10 +23,14 @@ class Mixer():
 
         self.volume = int()
         self.paused = False
+        self.pause_block = False
 
         self.MUSIC_END = USEREVENT
 
         self.convert_music()
+        
+        self.init_pos_update()
+        
 
     def save_config(self,) -> None:
         with open('./modules/music_player/config.json', 'w') as config:
@@ -37,13 +45,32 @@ class Mixer():
         mp32ogg()
         
         return
+
+    def init_pos_update(self,) -> None:
+        t = threading.Thread(target=self.start_pos_update)
+        t.daemon = True
+        t.start()
+
+    def start_pos_update(self,) -> None:
+        asyncio.run(self._pos_update())
+
+    async def _pos_update(self,) -> None:
+        if not self.paused:
+            if not self.pmixer.music.get_pos() == -1:
+                self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() + int(self.config["current_song"]["timestamp"]))
+                self.save_config()
+                self.play()
+
+        await asyncio.sleep(1.1)
+        await self._pos_update()
     
     def load(self, path: str, reset_start: bool = True) -> None:
-        if path != ".mp3":
+        if path != ".ogg":
             self.pmixer.music.load(f"../music/{path}")
             
             self.config["current_song"]["path"] = path
             self.config["current_song"]["timestamp"] = "0"
+            self.config["current_song"]["length"] = str(int(float(probe(f"../music/{path}")["format"]["duration"])) * 1000)
 
             if reset_start:
                 self.config["current_song"]["start_pos"] = "0"
