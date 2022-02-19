@@ -1,9 +1,10 @@
 from pygame import mixer
-from pygame import event as pgevents
 from pygame import USEREVENT
 
 from json import load, dumps
-from ..logging.Exceptions import EmptyPathError, SongNotFoundError
+
+from ..logging.Exceptions import EmptyPathError
+from ..converters.mp32ogg import mp32ogg
 
 class Mixer():
 
@@ -21,6 +22,8 @@ class Mixer():
 
         self.MUSIC_END = USEREVENT
 
+        self.convert_music()
+
     def save_config(self,) -> None:
         with open('./modules/music_player/config.json', 'w') as config:
             config.write(dumps(self.config, indent=4))
@@ -30,17 +33,21 @@ class Mixer():
     def get_config(self,) -> object:
         return self.config
     
+    def convert_music(self,) -> None:
+        mp32ogg()
+        
+        return
+    
     def load(self, path: str, reset_start: bool = True) -> None:
         if path != ".mp3":
-            try:
-                self.pmixer.music.load(f"../music/{path}")
-            except FileNotFoundError:
-                raise SongNotFoundError(path=path, prefix="MIXER")
+            self.pmixer.music.load(f"../music/{path}")
             
             self.config["current_song"]["path"] = path
             self.config["current_song"]["timestamp"] = "0"
+
             if reset_start:
                 self.config["current_song"]["start_pos"] = "0"
+
         else:
             raise EmptyPathError(path=path, prefix="MIXER")
         
@@ -85,7 +92,6 @@ class Mixer():
             new_pos = 0
 
             res = current_pos - amount
-            print(res)
             self.config["current_song"]["start_pos"] = str(int(self.config["current_song"]["start_pos"]) - res)
 
             if int(self.config["current_song"]["start_pos"]) < 0:

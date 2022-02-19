@@ -6,11 +6,11 @@ from modules.core.ES.events import Events
 class Main():
 
     def __init__(self,) -> None:
+        self.mixer = Mixer()
+
         self.display = Display()
         self.clock = Clock()
-        self.events = Events()
-
-        self.mixer = Mixer()
+        self.events = Events(self.mixer)
     
     def run(self,):
         self.display.screen.fill((0,0,50))

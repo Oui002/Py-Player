@@ -1,8 +1,8 @@
 {
-    "volume": "0.3",
+    "volume": "1.0",
     "current_song": {
-        "path": "Megalovania Remix by Camellia.mp3",
-        "timestamp": "0",
-        "start_pos": "4617"
+        "path": "IMAGE.ogg",
+        "timestamp": "896",
+        "start_pos": "179571"
     }
 }

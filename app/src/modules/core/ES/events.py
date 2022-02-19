@@ -7,16 +7,16 @@ from sys import exit
 from json import load, dumps
 
 from modules.core.DP.display import Display
-from ...music_player.mixer import Mixer
 
 class Events():
     
-    def __init__(self,) -> None:
+    def __init__(self, mixer) -> None:
         self.display = Display()
-        self.mixer = Mixer()
 
         with open('./modules/core/CK/config.json', 'r+') as config:
             self.config = load(config)
+
+        self.mixer = mixer
     
     def handle_events(self,) -> None:
         for event in pgevents.get():
