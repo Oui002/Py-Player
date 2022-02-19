@@ -1,4 +1,4 @@
-from pygame import FULLSCREEN, RESIZABLE, display
+from pygame import FULLSCREEN, display
 from json import load
 
 class Display():
@@ -18,4 +18,4 @@ class Display():
         self.display.update()
     
     def window_startup(self,) -> None:
-        self.display.set_mode((self.screen.get_width() / 2, self.screen.get_height() / 2), RESIZABLE)
+        self.display.set_mode((self.screen.get_width() / 2, self.screen.get_height() / 2), FULLSCREEN)
