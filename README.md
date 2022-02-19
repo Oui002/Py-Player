@@ -1,5 +1,5 @@
 # Py-Player [WIP]
-FFmpeg for the win amirite!
+
 
 # I want to run this piece of junk, but how??
 #### Well basically you just do
