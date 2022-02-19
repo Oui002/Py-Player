@@ -44,6 +44,7 @@ class Events():
                 self.mixer.music_end()
             
             if event.type == KEYDOWN:
+                # Player pos control
                 if event.key == K_j:
                     self.mixer.increment_playback_timestamp(-15000)
                     self.mixer.play()
@@ -51,12 +52,21 @@ class Events():
                 if event.key == K_l:
                     self.mixer.increment_playback_timestamp(+10000)
                     self.mixer.play()
-
-                if event.key == K_r:
-                    self.mixer.restart()
                 
+                # Volume control
+                if event.key == K_PLUS or event.key == K_EQUALS:
+                    self.mixer.offset_volume(0.05)
+                
+                if event.key == K_MINUS or event.key == K_UNDERSCORE:
+                    self.mixer.offset_volume(-0.05)
+                
+                # Pausing and unpausing
                 if event.key == K_k or event.key == K_SPACE:
                     if self.mixer.pmixer.music.get_busy():
                         self.mixer.stop()
                     else:
                         self.mixer.play()
+
+                # Restarting the song
+                if event.key == K_r:
+                    self.mixer.restart()

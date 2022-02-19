@@ -30,7 +30,6 @@ class Mixer():
         self.convert_music()
         
         self.start_pos_update()
-        
 
     def save_config(self,) -> None:
         if int(self.config["current_song"]["timestamp"]) < 0:
@@ -58,7 +57,7 @@ class Mixer():
         while True:
             if not self.paused and self.pmixer.music.get_busy():
                 self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() - self.saved_mixer_pos + int(self.config["current_song"]["timestamp"]))
-                self.save_config()
+                # Not saving config because well performance go brr.
 
                 self.saved_mixer_pos = self.pmixer.music.get_pos()
 
@@ -108,6 +107,21 @@ class Mixer():
 
         self.config["volume"] = str(vol)
         self.save_config()
+
+        return
+    
+    def offset_volume(self, offset: float,) -> None:
+        res = round((float(self.config["volume"]) + offset) * 1000) / 1000
+        
+        if res < 0:
+            res = 0.0
+        elif res > 1.0:
+            res = 1.0
+
+        self.config["volume"] = str(res)
+        self.save_config()
+
+        self.pmixer.music.set_volume(float(self.config["volume"]))
 
         return
     
