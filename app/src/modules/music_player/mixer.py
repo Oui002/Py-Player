@@ -3,6 +3,7 @@ from pygame import USEREVENT
 
 from json import load, dumps
 from ffmpeg import probe
+from time import sleep
 
 import asyncio
 import threading
@@ -30,7 +31,7 @@ class Mixer():
 
         self.convert_music()
         
-        self.init_pos_update()
+        self.start_pos_update()
         
 
     def save_config(self,) -> None:
@@ -50,23 +51,20 @@ class Mixer():
         
         return
 
-    def init_pos_update(self,) -> None:
-        t = threading.Thread(target=self.start_pos_update)
+    def start_pos_update(self,) -> None:
+        t = threading.Thread(target=self._pos_update_loop)
         t.daemon = True
         t.start()
 
-    def start_pos_update(self,) -> None:
-        asyncio.run(self._pos_update())
+    def _pos_update_loop(self,) -> None:
+        while True:
+            if not self.paused and self.pmixer.music.get_busy():
+                self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() - self.saved_mixer_pos + int(self.config["current_song"]["timestamp"]))
+                self.save_config()
 
-    async def _pos_update(self,) -> None:
-        if not self.paused:
-            self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() - self.saved_mixer_pos + int(self.config["current_song"]["timestamp"]))
-            self.save_config()
+                self.saved_mixer_pos = self.pmixer.music.get_pos()
 
-        self.saved_mixer_pos = self.pmixer.music.get_pos()
-
-        await asyncio.sleep(1.1)
-        await self._pos_update()
+            sleep(0.05)
     
     def load(self, path: str, reset_start: bool = True) -> None:
         if path != ".ogg":
@@ -94,6 +92,8 @@ class Mixer():
 
         self.pmixer.music.play(start=float((int(self.config["current_song"]["timestamp"]) + int(self.config["current_song"]["start_pos"])) / 1000))
         self.pmixer.music.set_endevent(self.MUSIC_END)
+
+        self.saved_mixer_pos = 0
 
         self.paused = False
 
@@ -148,6 +148,12 @@ class Mixer():
         self.pmixer.music.pause()
         self.paused = True
         
+        if self.saved_mixer_pos > self.pmixer.music.get_pos():
+            self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() + int(self.config["current_song"]["timestamp"]))
+            self.save_config()
+
+            return
+
         self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() - self.saved_mixer_pos + int(self.config["current_song"]["timestamp"]))
         self.save_config()
 
