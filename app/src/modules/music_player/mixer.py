@@ -22,6 +22,7 @@ class Mixer():
         self.load(self.config["current_song"]["path"], False)
 
         self.volume = int()
+        self.saved_mixer_pos = 0
         self.paused = False
         self.pause_block = False
 
@@ -33,6 +34,9 @@ class Mixer():
         
 
     def save_config(self,) -> None:
+        if int(self.config["current_song"]["timestamp"]) < 0:
+            self.config["current_song"]["timestamp"] = "0"
+
         with open('./modules/music_player/config.json', 'w') as config:
             config.write(dumps(self.config, indent=4))
         
@@ -56,10 +60,10 @@ class Mixer():
 
     async def _pos_update(self,) -> None:
         if not self.paused:
-            if not self.pmixer.music.get_pos() == -1:
-                self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() + int(self.config["current_song"]["timestamp"]))
-                self.save_config()
-                self.play()
+            self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() - self.saved_mixer_pos + int(self.config["current_song"]["timestamp"]))
+            self.save_config()
+
+        self.saved_mixer_pos = self.pmixer.music.get_pos()
 
         await asyncio.sleep(1.1)
         await self._pos_update()
@@ -144,7 +148,7 @@ class Mixer():
         self.pmixer.music.pause()
         self.paused = True
         
-        self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() + int(self.config["current_song"]["timestamp"]))
+        self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() - self.saved_mixer_pos + int(self.config["current_song"]["timestamp"]))
         self.save_config()
 
         return
