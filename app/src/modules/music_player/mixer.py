@@ -70,7 +70,7 @@ class Mixer():
             
             self.config["current_song"]["path"] = path
             self.config["current_song"]["timestamp"] = "0"
-            self.config["current_song"]["length"] = str(int(float(probe(f"../music/{path}")["format"]["duration"]) * 1000))
+            self.config["current_song"]["length"] = str(round(float(probe(f"../music/{path}")["format"]["duration"]) * 100) * 10)
 
             if reset_start:
                 self.config["current_song"]["start_pos"] = "0"
