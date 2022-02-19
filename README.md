@@ -7,7 +7,7 @@
 #### `python3 -m pip install ffmpeg-python`
 #### `python3 -m pip install pydub`
 
-And ta-da! ur all set to run this. Just head over to the files, double click on run.pyw, or debug.py.
+And ta-da! You're all set to run this, just head over to the files, double click on run.pyw, or debug.py.
 
 ___
 # Have fun :))
