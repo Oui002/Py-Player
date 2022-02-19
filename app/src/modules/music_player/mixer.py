@@ -1,12 +1,10 @@
 from pygame import mixer
 from pygame import USEREVENT
 
-from json import load, dumps
 from ffmpeg import probe
+from threading import Thread
+from json import load, dumps
 from time import sleep
-
-import asyncio
-import threading
 
 from ..logging.Exceptions import EmptyPathError
 from ..converters.mp32ogg import mp32ogg
@@ -52,7 +50,7 @@ class Mixer():
         return
 
     def start_pos_update(self,) -> None:
-        t = threading.Thread(target=self._pos_update_loop)
+        t = Thread(target=self._pos_update_loop)
         t.daemon = True
         t.start()
 
@@ -72,7 +70,7 @@ class Mixer():
             
             self.config["current_song"]["path"] = path
             self.config["current_song"]["timestamp"] = "0"
-            self.config["current_song"]["length"] = str(int(float(probe(f"../music/{path}")["format"]["duration"])) * 1000)
+            self.config["current_song"]["length"] = str(int(float(probe(f"../music/{path}")["format"]["duration"]) * 1000))
 
             if reset_start:
                 self.config["current_song"]["start_pos"] = "0"
