@@ -1,5 +1,6 @@
 BRUH.ogg
 IMAGE.ogg
 
-__pycache__/
-__pycache__/mixer.cpython-38.pyc
+__pycache__
+
+app/src/modules/music_player/config.json
