@@ -1,7 +1,7 @@
 # Py-Player [WIP]
 
 
-# I want to run this piece of junk, but how??
+## I want to run this piece of junk, but how??
 #### Well basically you just do
 #### `python3 -m pip install pygame==2.1.0`
 #### `python3 -m pip install ffmpeg-python`
