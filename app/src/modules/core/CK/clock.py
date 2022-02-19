@@ -1,5 +1,5 @@
 from pygame import time
-from json import load, dumps
+from json import load
 
 class Clock():
 

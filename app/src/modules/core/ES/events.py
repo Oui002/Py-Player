@@ -4,7 +4,7 @@ from pygame import quit
 from pygame import FULLSCREEN, RESIZABLE, USEREVENT
 
 from sys import exit
-from json import load, dumps
+from json import load
 
 from modules.core.DP.display import Display
 
@@ -45,19 +45,19 @@ class Events():
             
             if event.type == KEYDOWN:
                 # Player pos control
-                if event.key == K_j:
-                    self.mixer.increment_playback_timestamp(-15000)
-                    self.mixer.play()
-
-                if event.key == K_l:
+                if event.key == K_l or event.key == K_RIGHT:
                     self.mixer.increment_playback_timestamp(+10000)
+                    self.mixer.play()
+                    
+                if event.key == K_j or event.key == K_LEFT:
+                    self.mixer.increment_playback_timestamp(-15000)
                     self.mixer.play()
                 
                 # Volume control
-                if event.key == K_PLUS or event.key == K_EQUALS:
+                if event.key == K_PLUS or event.key == K_EQUALS or event.key == K_UP:
                     self.mixer.offset_volume(0.05)
                 
-                if event.key == K_MINUS or event.key == K_UNDERSCORE:
+                if event.key == K_MINUS or event.key == K_UNDERSCORE or event.key == K_DOWN:
                     self.mixer.offset_volume(-0.05)
                 
                 # Pausing and unpausing
