@@ -21,18 +21,21 @@ class Events():
     def handle_events(self,) -> None:
         for event in pgevents.get():
 
-            # Handling input
+            # Window close event
             if event.type == QUIT:
                 self.mixer.exit()
                 quit()
                 exit(0)
-                
+            
+            # Handling input
             elif event.type == KEYDOWN:
+                # Alternative for window close event
                 if event.key == K_ESCAPE:
                     self.mixer.exit()
                     quit()
                     exit(0)
                 
+                # Switching between fullscreen and windowed
                 if event.key == K_F11:
                     if self.display.display.get_window_size()[0] == 1920 and self.display.display.get_window_size()[1] == 1080:
                         self.display.display.set_mode((self.display.screen.get_width() / 2, self.display.screen.get_height() / 2), RESIZABLE)
@@ -43,12 +46,13 @@ class Events():
             if event.type == USEREVENT:
                 self.mixer.music_end()
             
+            # Mixer controls
             if event.type == KEYDOWN:
                 # Player pos control
                 if event.key == K_l or event.key == K_RIGHT:
                     self.mixer.increment_playback_timestamp(+10000)
                     self.mixer.play()
-                    
+
                 if event.key == K_j or event.key == K_LEFT:
                     self.mixer.increment_playback_timestamp(-15000)
                     self.mixer.play()

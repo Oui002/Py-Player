@@ -20,6 +20,8 @@ class Mixer():
         self.set_volume(float(self.config["volume"]))
         self.load(self.config["current_song"]["path"], False)
 
+        self.playlists = {}
+
         self.volume = int()
         self.saved_mixer_pos = 0
         self.paused = False
