@@ -16,6 +16,7 @@ class Playlist():
             
             if self.data == {}:
                 preset = open('./modules/Models/default.json', "r")
+                
                 self.data = load(preset)
                 self.save_playlist()
 
@@ -57,6 +58,7 @@ class Playlist():
         if self.data["playlist"]["1"] != {}:
             self.data["playlist"][str(len(self.data.keys()) + 1)]["name"] = name
             self.save_playlist()
+
         else:
             self.data["playlist"][str(1)]["name"] = name
             self.save_playlist()
