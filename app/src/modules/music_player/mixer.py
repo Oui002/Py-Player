@@ -46,7 +46,9 @@ class Mixer():
         return self.config
     
     def convert_music(self,) -> None:
-        mp32ogg()
+        t = Thread(target=mp32ogg)
+        t.daemon = False
+        t.start()
         
         return
 
@@ -59,7 +61,7 @@ class Mixer():
         while True:
             if not self.paused and self.pmixer.music.get_busy():
                 self.config["current_song"]["timestamp"] = str(self.pmixer.music.get_pos() - self.saved_mixer_pos + int(self.config["current_song"]["timestamp"]))
-                # Not saving config because well performance go brr.
+                # Not saving config because, well, performance go brr.
 
                 self.saved_mixer_pos = self.pmixer.music.get_pos()
 
