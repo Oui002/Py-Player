@@ -1,11 +1,13 @@
 from pygame import mixer
 from pygame import USEREVENT
 
+from os import listdir
 from ffmpeg import probe
 from threading import Thread
 from json import load, dumps
 from time import sleep
 
+from ..models.Playlist import Playlist
 from ..logging.Exceptions import EmptyPathError
 from ..converters.mp32ogg import mp32ogg
 
@@ -14,17 +16,21 @@ class Mixer():
     def __init__(self,) -> None:
         with open('./modules/music_player/config.json', 'r+') as config:
             self.config = load(config)
+
+        self.playlists = {
+            name[:-5]: Playlist(name[:-5]) for name in listdir("../playlists")
+        }
+        self.current_playlist = self.playlists.get("ALL") # Starting playlist, list all the songs
         
         self.pmixer = mixer
         self.pmixer.init()
         self.set_volume(float(self.config["volume"]))
-        self.load(self.config["current_song"]["path"], False)
-
-        self.playlists = {}
+        self.load(self.current_playlist.current() + ".ogg", False)
 
         self.volume = int()
         self.saved_mixer_pos = 0
         self.paused = False
+        self.loop = False
         self.pause_block = False
 
         self.MUSIC_END = USEREVENT
@@ -56,6 +62,8 @@ class Mixer():
         t = Thread(target=self._pos_update_loop)
         t.daemon = True
         t.start()
+
+        return
 
     def _pos_update_loop(self,) -> None:
         while True:
@@ -186,9 +194,15 @@ class Mixer():
         return
 
     def music_end(self,) -> None:
-        if self.paused == False:
+        if not self.paused:
             self.config["current_song"]["timestamp"] = "0"
             self.config["current_song"]["start_pos"] = "0"
             self.save_config()
+
+            if self.loop:
+                self.play()
+            else:
+                self.load(self.current_playlist.next() + ".ogg")
+                self.play()
         
         return

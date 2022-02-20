@@ -1,9 +1,12 @@
 {
     "playlist": {
-        "1": {}
+        "1": {
+            "name": "SUPERSTAR"
+        }
     },
     "metadata": {
-        "duration": "0",
-        "name": ""
+        "duration": "255140",
+        "name": "ALL",
+        "pl_pos": "1"
     }
 }

@@ -1,12 +1,10 @@
 from json import load, dumps
 from ffmpeg import probe
-from os import listdir
 
 class Playlist():
 
     def __init__(self, name: str,) -> None:
         self.pl_name = name
-        self.pl_pos = 1
 
         with open(f'../playlists/{self.pl_name}.json', "r+") as playlist:
             try:
@@ -21,8 +19,12 @@ class Playlist():
                 self.save_playlist()
 
                 preset.close()
+
+        self.pl_pos = int(self.data["metadata"]["pl_pos"])
+        self.data["metadata"]["name"] = self.pl_name
+        self.save_playlist()
         
-        self.current = self.data["playlist"][str(self.pl_pos)]
+        # self.current = self.data["playlist"][str(self.pl_pos)]
 
         self.calculate_duration()
     
@@ -34,6 +36,11 @@ class Playlist():
     
     def save_playlist(self,) -> None:
         with open(f'../playlists/{self.pl_name}.json', "w") as playlist:
+            try:
+                self.data["metadata"]["pl_pos"] = str(self.pl_pos)
+            except:
+                self.pl_pos = 1
+                self.data["metadata"]["pl_pos"] = str(self.pl_pos)
             playlist.write(dumps(self.data, indent=4))
     
     def calculate_duration(self,) -> None:
@@ -53,6 +60,9 @@ class Playlist():
             self.save_playlist()
 
         return
+    
+    def songs(self,) -> dict:
+        return {song: self.data["playlist"].get(song) for song in self.data["playlist"]}
 
     def add_song(self, name: str,) -> None:
         if self.data["playlist"]["1"] != {}:
@@ -66,20 +76,33 @@ class Playlist():
         return
     
     def next(self, update_pos: bool = True,) -> str:
-        _next = self.data["playlist"][str(self.pl_pos + 1)]["name"]
-
         if update_pos:
             self.pl_pos += 1
-        self.current = self.data["playlist"][str(self.pl_pos)]
+            if self.pl_pos > len(list(self.data["playlist"].keys())):
+                self.pl_pos = 1
+            
+            self.save_playlist()
+
+        _next = self.data["playlist"][str(self.pl_pos)]["name"]
+
+        # self.current = self.data["playlist"][str(self.pl_pos)]
         
         return _next
     
+    def current(self,) -> str:
+        return self.data["playlist"][str(self.pl_pos)]["name"]
+    
     def previous(self, update_pos: bool = True,) -> str:
-        _previous = self.data["playlist"][str(self.pl_pos - 1)]["name"]
-
         if update_pos:
             self.pl_pos -= 1
-        self.current = self.data["playlist"][str(self.pl_pos)]
+            if self.pl_pos <= 0:
+                self.pl_pos = len(list(self.data["playlist"].keys()))
+            
+            self.save_playlist()
+
+        _previous = self.data["playlist"][str(self.pl_pos)]["name"]
+
+        # self.current = self.data["playlist"][str(self.pl_pos)]
 
         return _previous
     
@@ -88,7 +111,7 @@ class Playlist():
 
         return
 
-Playlist("ALL")
+# Playlist("ALL").songs()
 
 # minutes and seconds
 # flt = str(round(int(Playlist("ALL").data["metadata"]["duration"]) / 10 / 60) / 100).split(".")
