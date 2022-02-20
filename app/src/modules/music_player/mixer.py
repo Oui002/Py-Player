@@ -46,7 +46,9 @@ class Mixer():
         return self.config
     
     def convert_music(self,) -> None:
-        mp32ogg()
+        t = Thread(target=mp32ogg)
+        t.daemon = False
+        t.start()
         
         return
 
