@@ -1,11 +1,13 @@
 from pygame import mixer
 from pygame import USEREVENT
 
+from os import listdir
 from ffmpeg import probe
 from threading import Thread
-from json import load, dumps
+from json import load, dumps, loads
 from time import sleep
 
+from ..models.Playlist import Playlist
 from ..logging.Exceptions import EmptyPathError
 from ..converters.mp32ogg import mp32ogg
 
@@ -20,7 +22,9 @@ class Mixer():
         self.set_volume(float(self.config["volume"]))
         self.load(self.config["current_song"]["path"], False)
 
-        self.playlists = {}
+        self.playlists = {
+            name[:-5]: Playlist(name[:-5]) for name in listdir("../playlists")
+        }
 
         self.volume = int()
         self.saved_mixer_pos = 0
@@ -56,6 +60,8 @@ class Mixer():
         t = Thread(target=self._pos_update_loop)
         t.daemon = True
         t.start()
+
+        return
 
     def _pos_update_loop(self,) -> None:
         while True:

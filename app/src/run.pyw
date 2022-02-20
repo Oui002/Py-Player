@@ -12,7 +12,6 @@ import pygame; pygame.init()
 #     sleep(1000)
 
 def main():
-    Mixer()
     app = Main()
     
     while True:

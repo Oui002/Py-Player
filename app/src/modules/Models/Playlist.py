@@ -1,6 +1,5 @@
 from json import load, dumps
 from ffmpeg import probe
-from os import listdir
 
 class Playlist():
 
@@ -53,6 +52,9 @@ class Playlist():
             self.save_playlist()
 
         return
+    
+    def songs(self,) -> dict:
+        return {song: self.data["playlist"].get(song) for song in self.data["playlist"]}
 
     def add_song(self, name: str,) -> None:
         if self.data["playlist"]["1"] != {}:
@@ -88,7 +90,7 @@ class Playlist():
 
         return
 
-Playlist("ALL")
+Playlist("ALL").songs()
 
 # minutes and seconds
 # flt = str(round(int(Playlist("ALL").data["metadata"]["duration"]) / 10 / 60) / 100).split(".")
