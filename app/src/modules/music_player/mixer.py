@@ -153,7 +153,7 @@ class Mixer():
                 self.config["current_song"]["start_pos"] = "0"
         
         if int(self.config["current_song"]["timestamp"]) + int(self.config["current_song"]["start_pos"]) > int(self.config["current_song"]["length"]):
-            self.stop() # ? can't test idk if this works
+            self.stop() # ? can't test idk if this works, should work though because .stop triggers endevent.
 
             # self.config["current_song"]["timestamp"] = 0
             # self.config["current_song"]["start_pos"] = 0
