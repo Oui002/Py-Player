@@ -50,11 +50,11 @@ class Events():
             if event.type == KEYDOWN:
                 # Player pos control
                 if event.key == K_l or event.key == K_RIGHT:
-                    self.mixer.increment_playback_timestamp(+10000)
+                    self.mixer.offset_playback_timestamp(+10000)
                     self.mixer.play()
 
                 if event.key == K_j or event.key == K_LEFT:
-                    self.mixer.increment_playback_timestamp(-15000)
+                    self.mixer.offset_playback_timestamp(-15000)
                     self.mixer.play()
                 
                 # Volume control
