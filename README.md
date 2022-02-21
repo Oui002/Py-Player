@@ -1,4 +1,4 @@
-# Py-Player [WIP]
+# Py-Player [WIP] v0.0.1-alpha NoGUI - Playlists
 
 
 ## I want to run this but how?? (Ur not meant to run it yet, still working on things)
