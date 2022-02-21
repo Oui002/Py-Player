@@ -31,7 +31,9 @@ class Mixer():
         self.saved_mixer_pos = 0
         self.paused = False
         self.loop = False
+
         self.pause_block = False
+        self.pos_change_block = False
 
         self.MUSIC_END = USEREVENT
 
@@ -139,6 +141,7 @@ class Mixer():
     
     def offset_playback_timestamp(self, amount: int,) -> None:
         self.pause()
+        self.pos_change_block = False
 
         current_pos = int(self.config["current_song"]["timestamp"])
         new_pos = amount + current_pos
@@ -152,16 +155,18 @@ class Mixer():
             if int(self.config["current_song"]["start_pos"]) < 0:
                 self.config["current_song"]["start_pos"] = "0"
         
-        if int(self.config["current_song"]["timestamp"]) + int(self.config["current_song"]["start_pos"]) > int(self.config["current_song"]["length"]):
+        if int(self.config["current_song"]["timestamp"]) + int(self.config["current_song"]["start_pos"]) + amount > int(self.config["current_song"]["length"]):
+            self.pos_change_block = True
             self.stop() # ? can't test idk if this works, should work though because .stop triggers endevent.
 
             # self.config["current_song"]["timestamp"] = 0
             # self.config["current_song"]["start_pos"] = 0
+        
+        if not self.pos_change_block:
+            self.config["current_song"]["timestamp"] = str(new_pos)
+            self.save_config()
 
-        self.config["current_song"]["timestamp"] = str(new_pos)
-        self.save_config()
-
-        self.play()
+            self.play()
 
         return
     
