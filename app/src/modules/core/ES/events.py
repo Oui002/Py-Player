@@ -74,3 +74,7 @@ class Events():
                 # Restarting the song
                 if event.key == K_r:
                     self.mixer.restart()
+                
+                # Enabling/disabling looping of the currently loaded song.
+                if event.key == K_e:
+                    self.mixer.loop = True
