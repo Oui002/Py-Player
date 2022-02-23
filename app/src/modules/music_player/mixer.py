@@ -30,7 +30,7 @@ class Mixer():
         self.volume = int()
         self.saved_mixer_pos = 0
         self.paused = False
-        self.loop = False
+        self.loop = True
 
         self.pause_block = False
         self.pos_change_block = False
@@ -109,6 +109,14 @@ class Mixer():
         self.paused = False
 
         return
+    
+    def play_next(self,) -> None:
+        self.load(self.current_playlist.next() + ".ogg")
+        self.play()
+    
+    def play_prev(self,) -> None:
+        self.load(self.current_playlist.previous() + ".ogg")
+        self.play()
     
     def stop(self,) -> None:
         self.pause()

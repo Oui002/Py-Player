@@ -1,22 +1,25 @@
 from pygame.locals import *
 from pygame import event as pgevents
-from pygame import quit
+from pygame import quit, mouse
 from pygame import FULLSCREEN, RESIZABLE, USEREVENT
 
 from sys import exit
 from json import load
 
-from modules.core.DP.display import Display
+from modules.core.display.display import Display
+from modules.core.typing.types import *
 
 class Events():
     
-    def __init__(self, mixer) -> None:
+    def __init__(self, mixer,) -> None:
         self.display = Display()
 
-        with open('./modules/core/CK/config.json', 'r+') as config:
+        with open('./modules/core/events/config.json', 'r+') as config:
             self.config = load(config)
 
         self.mixer = mixer
+
+        self.buttons = []
     
     def handle_events(self,) -> None:
         for event in pgevents.get():
@@ -39,8 +42,10 @@ class Events():
                 if event.key == K_F11:
                     if self.display.display.get_window_size()[0] == 1920 and self.display.display.get_window_size()[1] == 1080:
                         self.display.display.set_mode((self.display.screen.get_width() / 2, self.display.screen.get_height() / 2), RESIZABLE)
+                        # self.gui.update_gui(False)
                     else:
-                        self.display.display.set_mode((self.display.screen.get_width(), self.display.screen.get_height()), FULLSCREEN) 
+                        self.display.display.set_mode((self.display.screen.get_width(), self.display.screen.get_height()), FULLSCREEN)
+                        # self.gui.update_gui(True)
 
             # Mixer events
             if event.type == USEREVENT:
@@ -78,3 +83,23 @@ class Events():
                 # Enabling/disabling looping of the currently loaded song.
                 if event.key == K_e:
                     self.mixer.loop = True
+
+            # Buttons
+            if event.type == MOUSEBUTTONDOWN:
+                for button in self.buttons:
+                    button_res = button.check_for_input(mouse.get_pos())
+
+                    if button_res == True:
+                        if button.type == BUTTON_PLAY:
+                            self.mixer.play()
+
+                        elif button.type == BUTTON_PREVIOUS:
+                            self.mixer.play_prev()
+
+                        elif button.type == BUTTON_NEXT:
+                            self.mixer.play_next()
+                    
+                    
+
+    def update_buttons(self, buttons: list,) -> None:
+        self.buttons = buttons

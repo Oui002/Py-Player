@@ -1,10 +1,10 @@
 {
-    "volume": "1.0",
-    "current_playlist": "",
+    "volume": "0.2",
+    "current_playlist": "ALL",
     "current_song": {
-        "path": "SUPERSTAR.ogg",
+        "path": "UTA.ogg",
         "timestamp": "0",
         "start_pos": "0",
-        "length": "255140"
+        "length": "534940"
     }
 }

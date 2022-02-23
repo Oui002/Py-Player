@@ -4,7 +4,7 @@ from json import load
 class Clock():
 
     def __init__(self,) -> None:
-        with open('./modules/core/CK/config.json', 'r+') as config:
+        with open('./modules/core/clock/config.json', 'r+') as config:
             self.config = load(config)
 
         self.clock = time.Clock()

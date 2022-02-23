@@ -6,7 +6,7 @@ class Display():
     def __init__(self, caption: str = 'Py-Player Music Player [WIP]',) -> None:
         self.display = display
 
-        with open('./modules/core/CK/config.json', 'r+') as config:
+        with open('./modules/core/display/config.json', 'r+') as config:
             self.config = load(config)
 
         display.set_caption(caption)

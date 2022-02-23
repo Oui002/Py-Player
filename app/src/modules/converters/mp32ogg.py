@@ -10,9 +10,11 @@ def mp32ogg(path: str = "../music"):
                 try:
                     AudioSegment.from_mp3(f"{path}/{file}").export(f"{path}/{file[:-4]}.ogg", format="ogg")
                     remove(f"{path}/{file}")
-                except:
+                except Exception as ex:
                     remove(f"{path}/{file}")
                     remove(f"{path}/{file[:-4]}.ogg")
+
+                    print(ex)
                     
                     pass
                 

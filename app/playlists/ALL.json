@@ -2,11 +2,23 @@
     "playlist": {
         "1": {
             "name": "SUPERSTAR"
+        },
+        "2": {
+            "name": "Megalovania Remix by Camellia"
+        },
+        "3": {
+            "name": "UTA"
+        },
+        "4": {
+            "name": "KILL"
+        },
+        "5": {
+            "name": "KOINU"
         }
     },
     "metadata": {
-        "duration": "255140",
+        "duration": "1535670",
         "name": "ALL",
-        "pl_pos": "1"
+        "pl_pos": "3"
     }
 }

@@ -13,7 +13,7 @@ class Playlist():
                 self.data = {}
             
             if self.data == {}:
-                preset = open('./modules/Models/default.json', "r")
+                preset = open('./modules/Models/default_playlist.json', "r")
                 
                 self.data = load(preset)
                 self.save_playlist()
@@ -31,6 +31,7 @@ class Playlist():
     def load_playlist(self,) -> None:
         with open(f'../playlists/{self.pl_name}.json') as playlist:
             self.data = load(playlist)
+            self.calculate_duration()
         
         return
     
@@ -72,10 +73,14 @@ class Playlist():
         else:
             self.data["playlist"][str(1)]["name"] = name
             self.save_playlist()
+        
+        self.calculate_duration()
 
         return
     
     def next(self, update_pos: bool = True,) -> str:
+        self.load_playlist()
+
         if update_pos:
             self.pl_pos += 1
             if self.pl_pos > len(list(self.data["playlist"].keys())):
@@ -93,6 +98,8 @@ class Playlist():
         return self.data["playlist"][str(self.pl_pos)]["name"]
     
     def previous(self, update_pos: bool = True,) -> str:
+        self.load_playlist()
+
         if update_pos:
             self.pl_pos -= 1
             if self.pl_pos <= 0:
